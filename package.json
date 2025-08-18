@@ -1,0 +1,10 @@
+{
+  "name": "navigation2",
+  "version": "1.0.0",
+  "description": "navigation",
+  "scripts": {
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
+  }
+}
