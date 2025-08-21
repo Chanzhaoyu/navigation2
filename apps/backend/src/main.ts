@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
+import compression from 'compression';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -8,6 +11,7 @@ async function bootstrap() {
     abortOnError: false,
     logger: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
+
   const configService = app.get(ConfigService);
   const logger = new Logger('Bootstrap');
 
@@ -19,6 +23,12 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // 启用安全头部中间件
+  app.use(helmet());
+
+  // 启用压缩中间件
+  app.use(compression());
 
   // 设置全局前缀
   app.setGlobalPrefix('api');
