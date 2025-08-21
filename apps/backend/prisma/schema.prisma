@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
 model User {
   id       String  @id @default(cuid())
   username String  @unique
@@ -22,7 +27,7 @@ model User {
   age      Int?
   gender   String?
   bio      String?
-  role     String  @default("user")
+  role     UserRole @default(USER)
 
   // reset password
   resetToken       String?
