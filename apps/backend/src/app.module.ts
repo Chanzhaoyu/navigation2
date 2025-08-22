@@ -6,6 +6,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { validate } from 'src/common/config/configuration';
 import { MailService } from 'src/mail/mail.service';
 import { MailModule } from 'src/mail/mail.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MailModule } from 'src/mail/mail.module';
     }),
     PrismaModule,
     MailModule,
+    AuthModule,
   ],
   providers: [
     {
