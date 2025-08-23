@@ -9,7 +9,6 @@ import { AuthController } from './auth.controller';
   exports: [AuthService],
   imports: [
     JwtModule.registerAsync({
-      imports: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
