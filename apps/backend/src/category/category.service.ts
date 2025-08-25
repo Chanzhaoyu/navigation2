@@ -48,7 +48,7 @@ export class CategoryService {
    * 获取所有分类
    */
   async findAll() {
-    return this.prisma.category.findMany({
+    return await this.prisma.category.findMany({
       orderBy: { order: 'asc' },
       include: {
         _count: {
@@ -64,7 +64,7 @@ export class CategoryService {
    * 获取公开分类
    */
   async findPublic() {
-    return this.prisma.category.findMany({
+    return await this.prisma.category.findMany({
       where: { isPublic: true },
       orderBy: { order: 'asc' },
       include: {
