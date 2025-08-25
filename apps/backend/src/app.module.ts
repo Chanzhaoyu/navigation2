@@ -4,9 +4,12 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { validate } from 'src/common/config/configuration';
-import { MailService } from 'src/mail/mail.service';
 import { MailModule } from 'src/mail/mail.module';
 import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
+import { NavigationModule } from './navigation/navigation.module';
+import { QuicklinkModule } from './quicklink/quicklink.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,13 +24,16 @@ import { AuthModule } from './auth/auth.module';
     PrismaModule,
     MailModule,
     AuthModule,
+    CategoryModule,
+    NavigationModule,
+    QuicklinkModule,
+    UserModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    MailService,
   ],
 })
 export class AppModule {}

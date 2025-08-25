@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import compression from 'compression';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -23,6 +25,12 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // 启用全局响应拦截器
+  app.useGlobalInterceptors(new ResponseInterceptor(app.get('Reflector')));
+
+  // 启用全局异常过滤器
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // 启用安全头部中间件
   app.use(helmet());

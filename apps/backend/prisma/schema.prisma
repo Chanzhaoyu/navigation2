@@ -33,6 +33,74 @@ model User {
   resetToken       String?
   resetTokenExpiry DateTime?
 
+  // 关联关系
+  navItems     NavItem[]
+  quickLinks   QuickLink[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  icon        String?
+  color       String  @default("gray")
+  order       Int     @default(0)
+  isPublic    Boolean @default(true)
+
+  // 关联关系
+  navItems    NavItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NavItem {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  icon        String?
+  favicon     String?
+  tags        String? // 存储为逗号分隔的字符串
+  isPrivate   Boolean  @default(false)
+  isPublic    Boolean  @default(true)
+  order       Int      @default(0)
+  clickCount  Int      @default(0)
+
+  // 关联关系
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([userId])
+  @@index([isPrivate])
+  @@index([isPublic])
+}
+
+model QuickLink {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  icon        String?
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+
+  // 关联关系 - 只有管理员能创建快捷链接
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
